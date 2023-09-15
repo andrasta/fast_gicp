@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10.0)
 project(fast_gicp)
 
-option(BUILD_VGICP_CUDA "Build GPU-powered VGICP" OFF)
+option(BUILD_VGICP_CUDA "Build GPU-powered VGICP" ON)
 option(BUILD_apps "Build application programs" ON)
 option(BUILD_test "Build test programs" OFF)
 option(BUILD_PYTHON_BINDINGS "Build python bindings" OFF)
@@ -77,6 +77,11 @@ target_include_directories(fast_gicp PUBLIC
   ${PCL_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
 )
+install(TARGETS fast_gicp
+   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ### APPS ###
 if(BUILD_apps)
@@ -93,6 +98,11 @@ if(BUILD_apps)
     ${PCL_LIBRARIES}
     fast_gicp
   )
+  install(TARGETS gicp_align gicp_kitti
+   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 endif()
 
 ### Python bindings ###
@@ -151,7 +161,9 @@ if(BUILD_VGICP_CUDA)
   add_dependencies(fast_gicp fast_vgicp_cuda)
   if(catkin_FOUND)
     install(TARGETS fast_vgicp_cuda  
-      LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
+    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
   endif()
 endif()
 
@@ -170,7 +182,9 @@ if(catkin_FOUND)
   ## catkin specific configuration ##
   ###################################
   install(TARGETS ${PROJECT_NAME}
-    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
   
   install(DIRECTORY include/
     DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION}
