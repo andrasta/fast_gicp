@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         ROS_DISTRO: [focal, focal_cuda, melodic, melodic_llvm, noetic, noetic_llvm]
